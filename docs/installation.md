@@ -5,7 +5,6 @@
 ### Screenshots
 ![alt text](editorInstall.png)
 ## Installing OpenPLC Runtime
-1. Downloaded Windows installer from [Autonomy](https://autonomylogic.com/runtime).
-2. Used installer to install OpenPLC Runtime.
+1. Pulled the Docker image and started the container on my WSL 2 Linux subsystem.
 ### Screenshots
-![alt text](runtimeInstall.png)
+![alt text](runtime.png)
