@@ -3,7 +3,7 @@ import struct
 from pymodbus.client import ModbusTcpClient
 
 # Connect to OpenPLC Runtime
-client = ModbusTcpClient('127.0.0.1', port=502)
+client = ModbusTcpClient('127.0.0.1', port=5020)
 client.connect()
 
 def write_temperature(register_address, value):

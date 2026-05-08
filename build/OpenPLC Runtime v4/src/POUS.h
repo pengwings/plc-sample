@@ -23,11 +23,11 @@ void MAIN_body__(MAIN *data__);
 // Data part
 typedef struct {
   // PROGRAM Interface - IN, OUT, IN_OUT variables
-  __DECLARE_VAR(DINT,TEMPSENSOR1)
-  __DECLARE_VAR(DINT,TEMPSENSOR2)
-  __DECLARE_VAR(BOOL,FAN)
 
   // PROGRAM private variables - TEMP, private and located variables
+  __DECLARE_LOCATED(DINT,TEMPSENSOR1)
+  __DECLARE_LOCATED(DINT,TEMPSENSOR2)
+  __DECLARE_LOCATED(BOOL,FAN)
 
 } TEMP_SENSOR;
 

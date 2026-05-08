@@ -161,6 +161,12 @@ extern unsigned long long common_ticktime__;
 void glueVars()
 {
     
+    dint_memory_ptr[0] = (IEC_UDINT *)__MD0;
+    
+    dint_memory_ptr[1] = (IEC_UDINT *)__MD1;
+    
+    bool_output_ptr[0][0] = (IEC_BOOL *)__QX0_0;
+    
 }
 
 void updateTime()

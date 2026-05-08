@@ -1,12 +1,7 @@
-(* temperature control scenario *)
-
 PROGRAM temp_sensor
-VAR_INPUT
+VAR
 	TempSensor1 : dint AT %MD0;
 	TempSensor2 : dint AT %MD1;
-END_VAR
-
-VAR_OUTPUT
 	Fan : bool AT %QX0.0;
 END_VAR
 

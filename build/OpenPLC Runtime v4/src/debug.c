@@ -33,7 +33,7 @@
 #define SAME_ENDIANNESS      0
 #define REVERSE_ENDIANNESS   1
 
-char plc_program_md5[] = "77c362b0fc5c9560d9796b2ab806801b";
+char plc_program_md5[] = "5aa94babffbd37f5f96df838031decf7";
 
 uint8_t endianness;
 
@@ -48,9 +48,9 @@ static const struct {
     {&(RES0__INSTANCE0.SWITCHA), BOOL_ENUM},
     {&(RES0__INSTANCE0.SWITCHB), BOOL_ENUM},
     {&(RES0__INSTANCE0.LIGHT), BOOL_ENUM},
-    {&(RES0__INSTANCE1.TEMPSENSOR1), DINT_ENUM},
-    {&(RES0__INSTANCE1.TEMPSENSOR2), DINT_ENUM},
-    {&(RES0__INSTANCE1.FAN), BOOL_ENUM},
+    {&(RES0__INSTANCE1.TEMPSENSOR1), DINT_O_ENUM},
+    {&(RES0__INSTANCE1.TEMPSENSOR2), DINT_O_ENUM},
+    {&(RES0__INSTANCE1.FAN), BOOL_O_ENUM},
 };
 
 #define VAR_COUNT               6
@@ -68,8 +68,9 @@ size_t get_var_size(size_t idx)
     }
     switch (debug_vars[idx].type) {
     case BOOL_ENUM:
+    case BOOL_O_ENUM:
         return sizeof(BOOL);
-    case DINT_ENUM:
+    case DINT_O_ENUM:
         return sizeof(DINT);
     default:
         return 0;
@@ -83,8 +84,14 @@ void *get_var_addr(size_t idx)
     switch (debug_vars[idx].type) {
     case BOOL_ENUM:
         return (void *)&((__IEC_BOOL_t *) ptr)->value;
-    case DINT_ENUM:
-        return (void *)&((__IEC_DINT_t *) ptr)->value;
+    case BOOL_O_ENUM:
+        return (void *)((((__IEC_BOOL_p *) ptr)->flags & __IEC_FORCE_FLAG)
+                        ? &(((__IEC_BOOL_p *) ptr)->fvalue)
+                        : ((__IEC_BOOL_p *) ptr)->value);
+    case DINT_O_ENUM:
+        return (void *)((((__IEC_DINT_p *) ptr)->flags & __IEC_FORCE_FLAG)
+                        ? &(((__IEC_DINT_p *) ptr)->fvalue)
+                        : ((__IEC_DINT_p *) ptr)->value);
     default:
         return 0;
     }
@@ -103,12 +110,19 @@ void force_var(size_t idx, bool forced, void *val)
             break;
         }
     
-        case DINT_ENUM: {
-            memcpy(&((__IEC_DINT_t *) ptr)->value, val, var_size);
-            ((__IEC_DINT_t *) ptr)->flags |= __IEC_FORCE_FLAG;
+        case BOOL_O_ENUM: {
+            memcpy((((__IEC_BOOL_p *) ptr)->value), val, var_size);
+            memcpy(&((__IEC_BOOL_p *) ptr)->fvalue, val, var_size);
+            ((__IEC_BOOL_p *) ptr)->flags |= __IEC_FORCE_FLAG;
             break;
         }
     
+        case DINT_O_ENUM: {
+            memcpy((((__IEC_DINT_p *) ptr)->value), val, var_size);
+            memcpy(&((__IEC_DINT_p *) ptr)->fvalue, val, var_size);
+            ((__IEC_DINT_p *) ptr)->flags |= __IEC_FORCE_FLAG;
+            break;
+        }
         default:
             break;
         }
@@ -117,8 +131,11 @@ void force_var(size_t idx, bool forced, void *val)
         case BOOL_ENUM:
             ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;
             break;
-        case DINT_ENUM:
-            ((__IEC_DINT_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;
+        case BOOL_O_ENUM:
+            ((__IEC_BOOL_p *) ptr)->flags &= ~__IEC_FORCE_FLAG;
+            break;
+        case DINT_O_ENUM:
+            ((__IEC_DINT_p *) ptr)->flags &= ~__IEC_FORCE_FLAG;
             break;
         default:
             break;

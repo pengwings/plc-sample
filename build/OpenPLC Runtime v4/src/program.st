@@ -9,12 +9,10 @@ PROGRAM main
 END_PROGRAM
 
 PROGRAM temp_sensor
-  VAR_INPUT
-    TempSensor1 : DINT;
-    TempSensor2 : DINT;
-  END_VAR
-  VAR_OUTPUT
-    Fan : BOOL;
+  VAR
+    TempSensor1 AT %MD0 : DINT;
+    TempSensor2 AT %MD1 : DINT;
+    Fan AT %QX0.0 : BOOL;
   END_VAR
 
   IF TempSensor1 > 80 THEN
@@ -37,7 +35,7 @@ CONFIGURATION Config0
   END_RESOURCE
 END_CONFIGURATION
 
-(*DBG:char md5[] = "77c362b0fc5c9560d9796b2ab806801b";*)
+(*DBG:char md5[] = "5aa94babffbd37f5f96df838031decf7";*)
 (*DBG:/**)
 (*DBG: * This file is part of OpenPLC Runtime*)
 (*DBG: **)
@@ -73,7 +71,7 @@ END_CONFIGURATION
 (*DBG:#define SAME_ENDIANNESS      0*)
 (*DBG:#define REVERSE_ENDIANNESS   1*)
 (*DBG:*)
-(*DBG:char plc_program_md5[] = "77c362b0fc5c9560d9796b2ab806801b";*)
+(*DBG:char plc_program_md5[] = "5aa94babffbd37f5f96df838031decf7";*)
 (*DBG:*)
 (*DBG:uint8_t endianness;*)
 (*DBG:*)
@@ -88,9 +86,9 @@ END_CONFIGURATION
 (*DBG:    {&(RES0__INSTANCE0.SWITCHA), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.SWITCHB), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.LIGHT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE1.TEMPSENSOR1), DINT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE1.TEMPSENSOR2), DINT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE1.FAN), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE1.TEMPSENSOR1), DINT_O_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE1.TEMPSENSOR2), DINT_O_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE1.FAN), BOOL_O_ENUM},*)
 (*DBG:};*)
 (*DBG:*)
 (*DBG:#define VAR_COUNT               6*)
@@ -108,8 +106,9 @@ END_CONFIGURATION
 (*DBG:    }*)
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case BOOL_ENUM:*)
+(*DBG:    case BOOL_O_ENUM:*)
 (*DBG:        return sizeof(BOOL);*)
-(*DBG:    case DINT_ENUM:*)
+(*DBG:    case DINT_O_ENUM:*)
 (*DBG:        return sizeof(DINT);*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
@@ -123,8 +122,14 @@ END_CONFIGURATION
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case BOOL_ENUM:*)
 (*DBG:        return (void *)&((__IEC_BOOL_t *) ptr)->value;*)
-(*DBG:    case DINT_ENUM:*)
-(*DBG:        return (void *)&((__IEC_DINT_t *) ptr)->value;*)
+(*DBG:    case BOOL_O_ENUM:*)
+(*DBG:        return (void *)((((__IEC_BOOL_p *) ptr)->flags & __IEC_FORCE_FLAG)*)
+(*DBG:                        ? &(((__IEC_BOOL_p *) ptr)->fvalue)*)
+(*DBG:                        : ((__IEC_BOOL_p *) ptr)->value);*)
+(*DBG:    case DINT_O_ENUM:*)
+(*DBG:        return (void *)((((__IEC_DINT_p *) ptr)->flags & __IEC_FORCE_FLAG)*)
+(*DBG:                        ? &(((__IEC_DINT_p *) ptr)->fvalue)*)
+(*DBG:                        : ((__IEC_DINT_p *) ptr)->value);*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -143,12 +148,19 @@ END_CONFIGURATION
 (*DBG:            break;*)
 (*DBG:        }*)
 (*DBG:    *)
-(*DBG:        case DINT_ENUM: {*)
-(*DBG:            memcpy(&((__IEC_DINT_t *) ptr)->value, val, var_size);*)
-(*DBG:            ((__IEC_DINT_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
+(*DBG:        case BOOL_O_ENUM: {*)
+(*DBG:            memcpy((((__IEC_BOOL_p *) ptr)->value), val, var_size);*)
+(*DBG:            memcpy(&((__IEC_BOOL_p *) ptr)->fvalue, val, var_size);*)
+(*DBG:            ((__IEC_BOOL_p *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
 (*DBG:    *)
+(*DBG:        case DINT_O_ENUM: {*)
+(*DBG:            memcpy((((__IEC_DINT_p *) ptr)->value), val, var_size);*)
+(*DBG:            memcpy(&((__IEC_DINT_p *) ptr)->fvalue, val, var_size);*)
+(*DBG:            ((__IEC_DINT_p *) ptr)->flags |= __IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        }*)
 (*DBG:        default:*)
 (*DBG:            break;*)
 (*DBG:        }*)
@@ -157,8 +169,11 @@ END_CONFIGURATION
 (*DBG:        case BOOL_ENUM:*)
 (*DBG:            ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
-(*DBG:        case DINT_ENUM:*)
-(*DBG:            ((__IEC_DINT_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
+(*DBG:        case BOOL_O_ENUM:*)
+(*DBG:            ((__IEC_BOOL_p *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        case DINT_O_ENUM:*)
+(*DBG:            ((__IEC_DINT_p *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        default:*)
 (*DBG:            break;*)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
-  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2026-05-08T00:24:16"/>
-  <contentHeader name="Unnamed" modificationDateTime="2026-05-08T00:24:16">
+  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2026-05-08T01:38:39"/>
+  <contentHeader name="Unnamed" modificationDateTime="2026-05-08T01:38:39">
     <coordinateInfo>
       <fbd>
         <scaling x="16" y="16"/>
@@ -57,25 +57,23 @@
       </pou>
       <pou name="temp_sensor" pouType="program">
         <interface>
-          <inputVars>
-            <variable name="TempSensor1">
+          <localVars>
+            <variable name="TempSensor1" address="%MD0">
               <type>
                 <DINT/>
               </type>
             </variable>
-            <variable name="TempSensor2">
+            <variable name="TempSensor2" address="%MD1">
               <type>
                 <DINT/>
               </type>
             </variable>
-          </inputVars>
-          <outputVars>
-            <variable name="Fan">
+            <variable name="Fan" address="%QX0.0">
               <type>
                 <BOOL/>
               </type>
             </variable>
-          </outputVars>
+          </localVars>
         </interface>
         <body>
           <ST>
