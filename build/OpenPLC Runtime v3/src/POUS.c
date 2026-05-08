@@ -30,13 +30,7 @@ void TEMP_SENSOR_init__(TEMP_SENSOR *data__, BOOL retain) {
 void TEMP_SENSOR_body__(TEMP_SENSOR *data__) {
   // Initialise TEMP variables
 
-  if ((__GET_VAR(data__->TEMPSENSOR1,) > 80)) {
-    __SET_VAR(data__->,FAN,,__BOOL_LITERAL(TRUE));
-  } else if ((__GET_VAR(data__->TEMPSENSOR2,) > 90)) {
-    __SET_VAR(data__->,FAN,,__BOOL_LITERAL(TRUE));
-  } else {
-    __SET_VAR(data__->,FAN,,__BOOL_LITERAL(FALSE));
-  };
+  __SET_VAR(data__->,FAN,,(__GET_VAR(data__->TEMPSENSOR1,) > __GET_VAR(data__->TEMPSENSOR2,)));
 
   goto __end;
 

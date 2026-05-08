@@ -14,6 +14,12 @@
             "triggering": "Cyclic",
             "interval": "T#20ms",
             "priority": 1
+          },
+          {
+            "name": "task1",
+            "triggering": "Cyclic",
+            "interval": "T#20ms",
+            "priority": 1
           }
         ],
         "instances": [
@@ -21,11 +27,27 @@
             "name": "instance0",
             "task": "task0",
             "program": "main"
+          },
+          {
+            "name": "instance1",
+            "task": "task1",
+            "program": "temp_sensor"
           }
         ],
         "globalVariables": []
       }
     },
-    "deletedPous": []
+    "debugVariables": {
+      "pous": {
+        "temp_sensor": [
+          "TempSensor1",
+          "TempSensor2",
+          "Fan"
+        ]
+      }
+    },
+    "deletedPous": [],
+    "deletedServers": [],
+    "deletedRemoteDevices": []
   }
 }

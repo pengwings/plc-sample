@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
-  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2026-05-08T00:24:16"/>
-  <contentHeader name="Unnamed" modificationDateTime="2026-05-08T00:24:16">
+  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2026-05-05T00:50:54"/>
+  <contentHeader name="Unnamed" modificationDateTime="2026-05-05T00:50:54">
     <coordinateInfo>
       <fbd>
         <scaling x="16" y="16"/>
@@ -79,13 +79,7 @@
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[IF TempSensor1 > 80 THEN
-  FAN := TRUE;
-ELSIF TempSensor2 > 90 THEN
-  FAN := TRUE;
-ELSE
-  FAN := FALSE;
-END_IF;]]></xhtml:p>
+            <xhtml:p><![CDATA[Fan := TempSensor1 > TempSensor2;]]></xhtml:p>
           </ST>
         </body>
         <documentation>

@@ -4,9 +4,9 @@ PROGRAM main
 VAR
 	SwitchA : bool := TRUE;
 	SwitchB : bool := FALSE;
-	Light : bool;
+	Light : bool := FALSE;
 END_VAR
 
-Light := SwitchA AND NOT SwitchB;
+Light := SwitchA AND SwitchB;
 
 END_PROGRAM

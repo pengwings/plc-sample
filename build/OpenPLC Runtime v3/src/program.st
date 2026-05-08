@@ -17,13 +17,7 @@ PROGRAM temp_sensor
     Fan : BOOL;
   END_VAR
 
-  IF TempSensor1 > 80 THEN
-    FAN := TRUE;
-  ELSIF TempSensor2 > 90 THEN
-    FAN := TRUE;
-  ELSE
-    FAN := FALSE;
-  END_IF;
+  Fan := TempSensor1 > TempSensor2;
 END_PROGRAM
 
 
@@ -37,7 +31,7 @@ CONFIGURATION Config0
   END_RESOURCE
 END_CONFIGURATION
 
-(*DBG:char md5[] = "77c362b0fc5c9560d9796b2ab806801b";*)
+(*DBG:char md5[] = "f535f8ba3ddfc65c168ecbffd3ae7161";*)
 (*DBG:/**)
 (*DBG: * This file is part of OpenPLC Runtime*)
 (*DBG: **)
@@ -73,7 +67,7 @@ END_CONFIGURATION
 (*DBG:#define SAME_ENDIANNESS      0*)
 (*DBG:#define REVERSE_ENDIANNESS   1*)
 (*DBG:*)
-(*DBG:char plc_program_md5[] = "77c362b0fc5c9560d9796b2ab806801b";*)
+(*DBG:char plc_program_md5[] = "f535f8ba3ddfc65c168ecbffd3ae7161";*)
 (*DBG:*)
 (*DBG:uint8_t endianness;*)
 (*DBG:*)

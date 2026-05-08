@@ -33,7 +33,7 @@
 #define SAME_ENDIANNESS      0
 #define REVERSE_ENDIANNESS   1
 
-char plc_program_md5[] = "77c362b0fc5c9560d9796b2ab806801b";
+char plc_program_md5[] = "f535f8ba3ddfc65c168ecbffd3ae7161";
 
 uint8_t endianness;
 
